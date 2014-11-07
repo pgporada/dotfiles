@@ -1,4 +1,4 @@
-# GNU Screen - main configuration file 
+# GNU Screen - main configuration file
 # Allow bold colors - necessary for some reason
 attrcolor b ".I"
 
@@ -17,14 +17,14 @@ term xterm-256color
 # Cache 30000 lines for scroll back
 defscrollback 30000
 
-hardstatus alwayslastline 
+hardstatus alwayslastline
 # Very nice tabbed colored hardstatus line
 hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
 
 # change command character from ctrl-a to ctrl-b (emacs users may want this)
 #escape ^Bb
 
-# Hide hardstatus: ctrl-a f 
+# Hide hardstatus: ctrl-a f
 bind f eval "hardstatus ignore"
 # Show hardstatus: ctrl-a F
 bind F eval "hardstatus alwayslastline"
