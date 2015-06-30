@@ -1,3 +1,8 @@
+execute pathogen#infect()
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
 set history=700
 
 " Enable filetype plugins
@@ -44,25 +49,24 @@ set mat=2
 set noerrorbells
 set novisualbell
 set t_vb=
-set tm=500
 
+"http://sunaku.github.io/vim-256color-bce.html
+set t_ut=
+set tm=500
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Sets 256 color mode if the terminal supports it
+set t_Co=256
+
 " Enable syntax highlighting
 syntax enable
 
 set nu
-colorscheme elflord
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions+=e
-    set t_Co=256
-    set guitablabel=%M\ %t
-endif
+let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme base16-shapeshifter
+set background=dark
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -105,10 +109,10 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 " => Status line
 """"""""""""""""""""""""""""""
 " Always show the status line
-set laststatus=1
+"set laststatus=1
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -148,6 +152,18 @@ autocmd BufReadPost *
 " Remember info about open buffers on close
 set viminfo^=%
 
+" Vim split options
+" Remaps ctrl w + $key to ctrl $key
+" ctrl j = move right
+nnoremap <C-J> <C-W><C-J>
+" ctrl k = move up
+nnoremap <C-K> <C-W><C-K>
+" ctrl l = move down
+nnoremap <C-L> <C-W><C-L>
+" ctrl h = move left
+nnoremap <C-H> <C-W><C-H>
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -186,3 +202,60 @@ function! HasPaste()
     en
     return ''
 endfunction
+
+
+""""""""""""""""""""
+" PATHOGEN PLUGINS "
+""""""""""""""""""""
+
+" START Syntastic Plugin
+" https://github.com/scrooloose/syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+" END Syntastic Plugin
+
+" START NERDTree if no files are specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Close NERDTree if it's the only window left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" https://github.com/nathanaelkane/vim-indent-guides/issues/20
+let g:indent_guides_exclude_filetypes = ['nerdtree']
+" END NERDTree
+
+" START Airline
+let g:airline#extensions#tabline#enabled = 1
+set laststatus=2
+let g:airline_theme='base16'
+" END Airline
+
+" START webdevicons
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let WebDevIconsUnicodeDecorateFolderNodesExactMatches = 1
+set guifont=Anonymice\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ 10
+" END webdevicons
+
+" START gitgutter
+" If you have grep aliased to something like grep --color=auto, tell gitgutter to use raw grep
+let g:gitgutter_escape_grep = 1
+" git diff ignore whitespace
+let g:gitgutter_diff_args = '-w'
+let g:gitgutter_max_signs = 500  " default value
+" Accuracy for speed
+"let g:gitgutter_realtime = 0
+"let g:gitgutter_eager = 0
+" END gitgutter
+
+function! Clippy()
+    exe getline('.')
+    endfunction
+    command -range Clippy <line1>,<line2>call Clippy()
+vmap <F4> :Clippy<CR>
+
