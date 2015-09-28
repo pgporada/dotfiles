@@ -236,12 +236,6 @@ set laststatus=2
 let g:airline_theme='base16'
 " END Airline
 
-" START webdevicons
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let WebDevIconsUnicodeDecorateFolderNodesExactMatches = 1
-set guifont=Anonymice\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ 10
-" END webdevicons
-
 " START gitgutter
 " If you have grep aliased to something like grep --color=auto, tell gitgutter to use raw grep
 let g:gitgutter_escape_grep = 1
