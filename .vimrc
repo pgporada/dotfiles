@@ -3,7 +3,49 @@ execute pathogen#infect()
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
+" Make Vim able to edit crontab files again.
+set backupskip=/tmp/*,/private/tmp/*
+set backup                        " enable backups
+set noswapfile                    " it's 2015, Vim.
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" Clean trailing whitespace
+nnoremap <leader>ww mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+
+" Resize splits when the window is resized
+au VimResized * :wincmd =
+
+set modelines=0
+set showmode
 set history=700
+set undofile
+set undoreload=10000
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set matchtime=3
+set splitbelow
+set splitright
+set autowrite
+set autoread
+set shiftround
+set title
+set linebreak
+set colorcolumn=+1
 
 " Enable filetype plugins
 filetype plugin on
@@ -42,8 +84,6 @@ set magic
 
 " Show matching brackets when text indicator is over them
 set showmatch
-" How many tenths of a second to blink when matching brackets
-set mat=2
 
 " No annoying sound on errors
 set noerrorbells
@@ -64,9 +104,9 @@ set t_Co=256
 syntax enable
 
 set nu
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-shapeshifter
 set background=dark
+let g:seoul256_background = 233
+colorscheme seoul256
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -204,20 +244,42 @@ function! HasPaste()
 endfunction
 
 
+" Trailing whitespace {{{
+" Only shown when not in insert mode so I don't go insane.
+augroup trailing
+    au!
+    au InsertEnter * :set listchars-=trail:⌴
+    au InsertLeave * :set listchars+=trail:⌴
+augroup END
+
+" Make sure Vim returns to the same line when you reopen a file.
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
+" For some reason Vim no longer wants to talk to the OS X pasteboard through "*.
+" Computers are bullshit.
+function! g:FuckingCopyTheTextPlease()
+    let old_z = @z
+    normal! gv"zy
+    call system('pbcopy', @z)
+    let @z = old_z
+endfunction
+noremap <leader>p "*p
+" noremap <leader>p mz:r!pbpaste<cr>`z
+vnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
+nnoremap <leader>y VV:<c-u>call g:FuckingCopyTheTextPlease()<cr>
+
+" Reselect last-pasted text
+nnoremap gp `[v`]
+
 """"""""""""""""""""
 " PATHOGEN PLUGINS "
 """"""""""""""""""""
-
-" START Syntastic Plugin
-" https://github.com/scrooloose/syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-" END Syntastic Plugin
 
 " START NERDTree if no files are specified
 autocmd StdinReadPre * let s:std_in=1
@@ -233,19 +295,8 @@ let g:indent_guides_exclude_filetypes = ['nerdtree']
 " START Airline
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
-let g:airline_theme='base16'
+let g:airline_theme='behelit'
 " END Airline
-
-" START gitgutter
-" If you have grep aliased to something like grep --color=auto, tell gitgutter to use raw grep
-let g:gitgutter_escape_grep = 1
-" git diff ignore whitespace
-let g:gitgutter_diff_args = '-w'
-let g:gitgutter_max_signs = 500  " default value
-" Accuracy for speed
-"let g:gitgutter_realtime = 0
-"let g:gitgutter_eager = 0
-" END gitgutter
 
 function! Clippy()
     exe getline('.')
@@ -253,3 +304,9 @@ function! Clippy()
     command -range Clippy <line1>,<line2>call Clippy()
 vmap <F4> :Clippy<CR>
 
+" START windowswap
+let g:windowswap_map_keys = 0 "prevent default bindings
+nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
+nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
+nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
+" END windowswap
