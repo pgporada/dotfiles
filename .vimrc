@@ -105,8 +105,8 @@ syntax enable
 
 set nu
 set background=dark
-let g:seoul256_background = 233
-colorscheme seoul256
+let g:solarized_termcolors=256
+colorscheme solarized
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -158,6 +158,12 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Resize splits
+map + <c-w>-
+map - <c-w>+
+map > <c-w><
+map < <c-w>>
+
 " Close the current buffer
 map <leader>bd :Bclose<cr>
 
@@ -295,7 +301,9 @@ let g:indent_guides_exclude_filetypes = ['nerdtree']
 " START Airline
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
-let g:airline_theme='behelit'
+let g:airline_theme='murmur'
+let g:airline#extensions#hunks#enabled=0
+let g:airline#extensions#branch#enabled=1
 " END Airline
 
 function! Clippy()
