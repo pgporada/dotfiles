@@ -1,0 +1,34 @@
+---
+extends: default
+
+rules:
+  line-length:
+    max: 80
+    level: warning
+  document-start:
+    present: true
+  document-end:
+    present: true
+  key-duplicates: enable
+  trailing-spaces: enable
+  new-line-at-end-of-file: disable
+  hyphens:
+    max-spaces-after: 1
+  empty-lines:
+    max: 2
+    max-start: 0
+    max-end: 0
+  commas:
+    max-spaces-before: 0
+    min-spaces-after: 1
+    max-spaces-after: 1
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: 1
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 0
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 0
+...
