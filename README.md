@@ -19,7 +19,12 @@ Symlink these files into your home directory
     alias tron-online='ssh sshtron.zachlatta.com ; clear'
 
 ### Yamllint
+You should really [check this guys project out](https://github.com/adrienverge/yamllint) if you're writing Ansible or Salt.
+
 I add this alias to my `~/.bashrc`
 
     alias yams='find . -type f -name "*.yml" -exec yamllint -f parsable {} \; | sed "s|\./||g" | egrep -v "(\.kitchen/|\[warning\])"'
 
+Inside of one of my ansible projects I can then run
+
+    yams
