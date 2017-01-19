@@ -3,6 +3,12 @@ execute pathogen#infect()
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
+" Highlight characters over 80
+"augroup vimrc_autocmds
+"  autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#111111
+"  autocmd BufEnter * match OverLength /\%81v.*/
+"augroup END
+
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*
 set backup                        " enable backups
@@ -21,13 +27,6 @@ if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), "p")
 endif
 
-
-" Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
-" Clean trailing whitespace
-nnoremap <leader>ww mz:%s/\s\+$//<cr>:let @/=''<cr>`z
-
 " Resize splits when the window is resized
 au VimResized * :wincmd =
 
@@ -36,7 +35,6 @@ set showmode
 set history=700
 set undofile
 set undoreload=10000
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set matchtime=3
 set splitbelow
 set splitright
@@ -54,6 +52,9 @@ filetype indent on
 "Always show current position
 set ruler
 
+"Clipboard stuff
+set clipboard=unnamedplus
+
 " Height of the command bar
 set cmdheight=2
 
@@ -67,7 +68,7 @@ set whichwrap+=<,>,h,l
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
@@ -105,8 +106,8 @@ syntax enable
 
 set nu
 set background=dark
-let g:solarized_termcolors=256
-colorscheme solarized
+"let g:solarized_termcolors=256
+colorscheme brogrammer
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -183,7 +184,7 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
@@ -267,19 +268,6 @@ augroup line_return
         \ endif
 augroup END
 
-" For some reason Vim no longer wants to talk to the OS X pasteboard through "*.
-" Computers are bullshit.
-function! g:FuckingCopyTheTextPlease()
-    let old_z = @z
-    normal! gv"zy
-    call system('pbcopy', @z)
-    let @z = old_z
-endfunction
-noremap <leader>p "*p
-" noremap <leader>p mz:r!pbpaste<cr>`z
-vnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
-nnoremap <leader>y VV:<c-u>call g:FuckingCopyTheTextPlease()<cr>
-
 " Reselect last-pasted text
 nnoremap gp `[v`]
 
@@ -306,15 +294,31 @@ let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#branch#enabled=1
 " END Airline
 
-function! Clippy()
-    exe getline('.')
-    endfunction
-    command -range Clippy <line1>,<line2>call Clippy()
-vmap <F4> :Clippy<CR>
-
 " START windowswap
 let g:windowswap_map_keys = 0 "prevent default bindings
 nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
 nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
 nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 " END windowswap
+
+" START ctrlp
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+" END ctrlp
+
+" START ansible-vim
+let g:ansible_extra_keywords_highlight = 1
+let g:ansible_name_highlight = 'b'
+let g:ansible_extra_syntaxes = "sh.vim"
+
+func! DeleteTrailingWS()
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
+autocmd BufWrite * :call DeleteTrailingWS()
+
+" START vim-hclfmt
+let g:hcl_fmt_autosave = 1
+let g:tf_fmt_autosave = 0
+let g:nomad_fmt_autosave = 1
+" END vim-hclfmt
