@@ -23,7 +23,7 @@ You should really [check this guys project out](https://github.com/adrienverge/y
 
 I add this alias to my `~/.bashrc`
 
-    alias yams='find . -type f -name "*.yml" -exec yamllint -f parsable {} \; | sed "s|\./||g" | egrep -v "(\.kitchen/|\[warning\])"'
+    alias yams='find . -type f -name "*.yml*" -exec yamllint -f parsable {} \; | sed "s|\./||g" | egrep -v "(\.kitchen/|\[warning\])"'
 
 Inside of one of my ansible projects I can then run
 
