@@ -29,6 +29,7 @@ bundle() {
             until [ $RETVAL -eq 0 ]; do
                 ${_bundle} ${args}
                 RETVAL=$?
+                echo "Fuck you test-kitchen"
             done
         else
             ${_bundle} ${args}
