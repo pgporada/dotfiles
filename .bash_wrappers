@@ -26,7 +26,7 @@ bundle() {
         local lastarg=${array[$len-1]} # get the last arg
         if [ $lastarg == "converge" ]; then
             RETVAL=100
-            until [ $RETVAL -eq 0 ]; do
+            until [ $RETVAL -ne 20 ]; do
                 ${_bundle} ${args}
                 RETVAL=$?
                 echo "Fuck you test-kitchen"
