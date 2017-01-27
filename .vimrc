@@ -30,7 +30,7 @@ endif
 " Resize splits when the window is resized
 au VimResized * :wincmd =
 
-set modelines=0
+set modelines=1
 set showmode
 set history=700
 set undofile
