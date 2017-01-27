@@ -9,30 +9,3 @@ man() {
     LESS_TERMCAP_us=$'\E[04;38;5;146m' \
     man "$@"
 }
-
-# net-ssh has a nasty issue where a `bundle exec kitchen converge` can fail to connect to the target host
-# and it's really annoying
-bundle() {
-    local _bundle=$(which bundle)
-
-    local array=( $@ )
-    local len=${#array[@]}
-    local args=${array[@]} # get all args
-
-    if [ $len -eq 0 ]; then
-        ${_bundle} ${args}
-        return $?
-    else
-        local lastarg=${array[$len-1]} # get the last arg
-        if [ $lastarg == "converge" ]; then
-            RETVAL=20
-            until [ $RETVAL -ne 20 ]; do
-                ${_bundle} ${args}
-                RETVAL=$?
-                echo "Fuck you test-kitchen"
-            done
-        else
-            ${_bundle} ${args}
-        fi
-    fi
-}
