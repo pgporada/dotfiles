@@ -1,0 +1,14 @@
+[user]
+	email = philporada@gmail.com
+    name = Phil Porada
+
+# https://github.com/building5/ansible-vault-tools
+[diff "ansible-vault"]
+    textconv = ansible-vault view
+    # Do not cache the vault contents
+    cachetextconv = false
+
+# https://github.com/building5/ansible-vault-tools
+[merge "ansible-vault"]
+    name = ansible-vault merge driver
+    driver = /usr/local/bin/ansible-vault-merge -- %O %A %B %P
