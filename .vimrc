@@ -322,3 +322,16 @@ let g:hcl_fmt_autosave = 1
 let g:tf_fmt_autosave = 0
 let g:nomad_fmt_autosave = 1
 " END vim-hclfmt
+
+nmap <silent> <leader><bslash> :call ToggleIndentGuidesSpaces()<cr>
+function! ToggleIndentGuidesSpaces()
+	if exists('b:iguides_spaces')
+		call matchdelete(b:iguides_spaces)
+		unlet b:iguides_spaces
+	else
+		let pos = range(1, &l:textwidth, &l:shiftwidth)
+		call map(pos, '"\\%" . v:val . "v"')
+		let pat = '\%(\_^\s*\)\@<=\%(' . join(pos, '\|') . '\)\s'
+		let b:iguides_spaces = matchadd('CursorLine', pat)
+	endif
+endfunction
