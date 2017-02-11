@@ -9,3 +9,16 @@ man() {
     LESS_TERMCAP_us=$'\E[04;38;5;146m' \
     man "$@"
 }
+
+whatsgoingon() {
+    for i in $(find . -maxdepth 1 -type d | sed -e 's/\.\///' -e '/\./d'); do
+        pushd $i >/dev/null
+        echo "$(tput bold)$i$(tput sgr0)"
+        if [ -z "$(git status --porcelain)" ]; then
+            echo "is clean"
+        else
+            git status -s
+        fi
+        popd >/dev/null
+    done
+}
