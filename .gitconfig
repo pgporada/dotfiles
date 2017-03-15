@@ -1,6 +1,7 @@
 [user]
     email = pporada@greenlancer.com
     name = Phil Porada
+	signingkey = C2E660AD9DD4F728
 
 # https://github.com/building5/ansible-vault-tools
 #[diff "ansible-vault"]
