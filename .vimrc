@@ -335,3 +335,7 @@ function! ToggleIndentGuidesSpaces()
 		let b:iguides_spaces = matchadd('CursorLine', pat)
 	endif
 endfunction
+
+" START vim-hashicorp-terraform
+let g:terraform_align = 1
+" END vim-hashicorp-terraform
