@@ -156,10 +156,13 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Resize splits
-map + <c-w>-
-map - <c-w>+
-map > <c-w><
-map < <c-w>>
+""" Disabled for now until I feel like figuring out how to
+""" work these in AND keep the default vim shift+> shift+<
+""" for text identation
+"map + <c-w>-
+"map - <c-w>+
+"map > <c-w><
+"map < <c-w>>
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>
