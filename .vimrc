@@ -1,5 +1,12 @@
 execute pathogen#infect()
 
+" UTC time. Don't nuke your eyes with a light colored background at night.
+if strftime(%H) < 19
+    set background=light
+else
+    set background=dark
+endif
+
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
