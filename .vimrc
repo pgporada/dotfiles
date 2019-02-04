@@ -1,7 +1,7 @@
 execute pathogen#infect()
 
 " UTC time. Don't nuke your eyes with a light colored background at night.
-if strftime("%H") < 19
+if strftime('%H') < 19
     set background=light
 else
     set background=dark
@@ -113,7 +113,7 @@ syntax enable
 
 set nu
 let g:solarized_termcolors=256
-colorscheme brogrammer
+colorscheme solarized
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
