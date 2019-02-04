@@ -1,7 +1,7 @@
 execute pathogen#infect()
 
 " UTC time. Don't nuke your eyes with a light colored background at night.
-if strftime(%H) < 19
+if strftime("%H") < 19
     set background=light
 else
     set background=dark
