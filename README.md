@@ -1,12 +1,17 @@
 # Overview
 Symlink these files into your home directory
 
-### Generic aliases
+    git clone https://github.com/pgporada/dotfiles
+    ln -s dotfiles/.vimrc .
+    # You get the point.
+
+- - - -
+# Useful aliases for ~/.bashrc
+
     alias dc='cd'
     alias diff='colordiff'
     alias egrep='egrep --color=auto'
     alias fgrep='fgrep --color=auto'
-    alias gam='/home/phil/bin/gam/gam'
     alias grep='grep --color=auto'
     alias gti='git'
     alias l='ls -CF'
@@ -17,8 +22,11 @@ Symlink these files into your home directory
     alias nethack-online='ssh nethack@nethack.alt.org ; clear'
     alias tmux='tmux -2'
     alias tron-online='ssh sshtron.zachlatta.com ; clear'
+    alias emacs='vim'
 
-### Yamllint
+- - - -
+# Cool tools
+
 You should really [check this guys project out](https://github.com/adrienverge/yamllint) if you're writing Ansible or Salt.
 
 I add this alias to my `~/.bashrc`

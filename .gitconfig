@@ -20,3 +20,6 @@
 
 #[push]
 #	gpgsign = true
+#
+[commit]
+	gpgsign = true

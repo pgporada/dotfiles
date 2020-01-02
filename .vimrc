@@ -1,5 +1,12 @@
 execute pathogen#infect()
 
+" UTC time. Don't nuke your eyes with a light colored background at night.
+if strftime('%H') < 19
+    set background=light
+else
+    set background=dark
+endif
+
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
@@ -105,9 +112,8 @@ set t_Co=256
 syntax enable
 
 set nu
-set background=dark
-"let g:solarized_termcolors=256
-colorscheme brogrammer
+let g:solarized_termcolors=256
+colorscheme solarized
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -127,10 +133,6 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
 
 set ai "Auto indent
 set si "Smart indent
@@ -160,10 +162,13 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Resize splits
-map + <c-w>-
-map - <c-w>+
-map > <c-w><
-map < <c-w>>
+""" Disabled for now until I feel like figuring out how to
+""" work these in AND keep the default vim shift+> shift+<
+""" for text identation
+"map + <c-w>-
+"map - <c-w>+
+"map > <c-w><
+"map < <c-w>>
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>
