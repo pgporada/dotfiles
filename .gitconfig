@@ -1,27 +1,22 @@
 [user]
-	email = philporada@gmail.com
+	email = pporada@letsencrypt.org
 	name = Phil Porada
-	signingkey = 9DD4F728
+	signingkey = D7E4296E
 
-# https://github.com/building5/ansible-vault-tools
-#[diff "ansible-vault"]
-#    textconv = ansible-vault view
-#    # Do not cache the vault contents
-#    cachetextconv = false
+[gpg]
+    program = qubes-gpg-client-wrapper
 
-# https://github.com/building5/ansible-vault-tools
-#[merge "ansible-vault"]
-#    name = ansible-vault merge driver
-#    driver = /usr/local/bin/ansible-vault-merge -- %O %A %B %P
-
-
-[filter "ansible-vault"]
-    smudge = ~/.bin/smudge_vault.sh
-    clean  = ~/.bin/clean_vault.sh
-
-[diff "ansible-vault"]
-    textconv = ~/.bin/diff_vault.sh
-    # Do not cache the vault contents
-    cachetextconv = false
 [commit]
-	gpgsign = true
+    gpgsign = true
+
+[diff]
+    tool = vimdiff
+
+[merge]
+    tool = vimdiff
+
+[difftool]
+    prompt = false
+
+#[push]
+#	gpgsign = true
