@@ -20,6 +20,6 @@
 
 #[push]
 #	gpgsign = true
-#
-[commit]
-	gpgsign = true
+
+[alias]
+    pickle-that = "!git commit --amend -m \"$(git log --format=%s -n1) 🥒\" -m \"$(echo)$(git log --format=%b -n1)\""
