@@ -6,10 +6,10 @@ rules:
     #allow-non-breakable-words: true
     #allow-non-breakable-inline-mappings: true
   document-start:
-    present: true
+    present: false
     level: warning
-  document-end: disable
-    #present: false
+  document-end:
+    present: false
     #level: warning
   key-duplicates: enable
   trailing-spaces: enable
